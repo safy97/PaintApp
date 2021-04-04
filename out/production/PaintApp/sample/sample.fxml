@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.24247491638795987" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+             <Button fx:id="rectangle" layoutX="22.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#handleRectangle" prefHeight="26.0" prefWidth="98.0" text="rectangle" AnchorPane.bottomAnchor="336.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="36.0">
+                 <style>
+                     -fx-margin: auto;
+                 </style>
+             </Button>
+            <ChoiceBox fx:id="shapes" layoutX="9.0" layoutY="118.0" prefHeight="26.0" prefWidth="124.0" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+             <Canvas id="canvas" fx:id="canvas" height="1000.0" onMouseDragged="#handleDrag" onMousePressed="#handleDragStart" onMouseReleased="#handleDrageExit" width="1000.0">
+                 <style>
+                     
+                 </style>
+             </Canvas>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
