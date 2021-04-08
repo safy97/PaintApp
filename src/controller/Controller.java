@@ -8,16 +8,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.effect.Light;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import model.Shape;
 import model.ShapeFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import utils.JavafxUtils;
@@ -31,9 +28,14 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Controller implements IController {
     ArrayList <Shape> shapes = new ArrayList<>();
@@ -52,9 +54,9 @@ public class Controller implements IController {
 
     @FXML
     private  void initialize(){
-        shapesList.setValue("Rectangle");
-        shapesList.getItems().addAll("Rectangle","Square","Triangle","Line","Circle","Ellipse");
+        updateShapesList();
     }
+
     @FXML
     public  void handleDragStart(MouseEvent event){
          start = new Point2D(event.getX(),event.getY());
@@ -115,6 +117,54 @@ public class Controller implements IController {
         refresh();
     }
 
+    @FXML
+    public void addPluginHandler(Event event){
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(((Button)event.getSource()).getScene().getWindow());
+        if(file != null){
+            addPlugin(file.getPath());
+        }
+    }
+
+    private void addPlugin(String path)  {
+        JarFile jarFile = null;
+        try {
+            jarFile = new JarFile(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Enumeration<JarEntry> e = jarFile.entries();
+
+        URL[] urls = new URL[0];
+        try {
+            urls = new URL[]{ new URL("jar:file:" + path+"!/") };
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+        URLClassLoader cl = URLClassLoader.newInstance(urls);
+
+        while (e.hasMoreElements()) {
+            JarEntry je = e.nextElement();
+            if(je.isDirectory() || !je.getName().endsWith(".class")){
+                continue;
+            }
+            // -6 because of .class
+            String className = je.getName().substring(0,je.getName().length()-6);
+            className = className.replace('/', '.');
+            Class c = null;
+            try {
+                c = cl.loadClass(className);
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            if(Shape.class.isAssignableFrom(c)){
+                ShapeFactory.getInstance().addClass(c);
+            }
+            updateShapesList();
+
+        }
+    }
+
     private  Shape getSelectedItem(){
         if(shapesView.getItems().size()!=0 && shapesView.getValue()!= null){
             return shapes.get(shapesView.getItems().indexOf(shapesView.getValue()));
@@ -123,7 +173,7 @@ public class Controller implements IController {
     }
     private void drawShape(MouseEvent event, boolean isFinished){
         Point2D curr = new Point2D(event.getX(),event.getY());
-        Shape shape = ShapeFactory.getShape((String)shapesList.getValue(), start,curr,fillPicker.getValue(),strokePicker.getValue());
+        Shape shape = ShapeFactory.getInstance().getShape((String)shapesList.getValue(), start,curr,fillPicker.getValue(),strokePicker.getValue());
         if(isFinished){
             shape.setFinished();
             addShape(shape);
@@ -145,9 +195,16 @@ public class Controller implements IController {
 
     private void updateShapeListView(){
         if(shapes.size() != shapesView.getItems().size()) {
+            List <String> list = JavafxUtils.numberCollection(shapes.size());
             shapesView.getItems().setAll(JavafxUtils.numberCollection(shapes.size()));
+            if(list.size() != 0)shapesView.setValue(list.get(list.size()-1));
         }
-        shapesView.setValue("Shape 1");
+
+    }
+    private void updateShapesList(){
+        List <String> supportedShapes = getSupportedShapes();
+        shapesList.setValue(supportedShapes.get(0));
+        shapesList.getItems().setAll(supportedShapes);
     }
 
     private  void clearCanvas(){
@@ -183,8 +240,8 @@ public class Controller implements IController {
     }
 
     @Override
-    public List<Class<? extends Shape>> getSupportedShapes() {
-        return null;
+    public List<String> getSupportedShapes() {
+        return ShapeFactory.getInstance().getSupportedShapes();
     }
 
     @Override
@@ -246,7 +303,7 @@ public class Controller implements IController {
                 String type = element.getElementsByTagName("type").item(0).getTextContent();
                 Color fill = JavafxUtils.DoubleToColor(Double.parseDouble(element.getElementsByTagName("fill").item(0).getTextContent()));
                 Color stroke = JavafxUtils.DoubleToColor(Double.parseDouble(element.getElementsByTagName("stroke").item(0).getTextContent()));
-                Shape shape = ShapeFactory.getShape(type,start,end,fill,stroke);
+                Shape shape = ShapeFactory.getInstance().getShape(type,start,end,fill,stroke);
                 shape.setFinished();
                 addShape(shape);
             }

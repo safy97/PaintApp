@@ -1,9 +1,9 @@
 package controller;
 
-import javafx.scene.canvas.Canvas;
 import model.Shape;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IController {
     /* redraw all shapes on the canvas */
@@ -15,7 +15,7 @@ public interface IController {
     public ArrayList<Shape> getShapes();
     /* return the classes (types) of supported shapes that can
      * be dynamically loaded at runtime (see Part 3) */
-    public java.util.List<Class<? extends Shape>> getSupportedShapes();
+    public List<String> getSupportedShapes();
     /* limited to 20 steps. You consider these actions in
      * undo & redo: addShape, removeShape, updateShape */
     public void undo();

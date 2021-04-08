@@ -10,8 +10,8 @@ public class CommandManager {
     private static CommandManager commandManager;
     private CommandManager(){}
     public static CommandManager getInstance(){
-        if(commandManager == null) return new CommandManager();
-        else return commandManager;
+        if(commandManager == null) commandManager =  new CommandManager();
+        return commandManager;
     }
     public void clearCommands(){
         commands.clear();

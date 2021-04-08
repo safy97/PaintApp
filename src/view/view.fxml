@@ -15,7 +15,8 @@
             <ColorPicker fx:id="strokePicker" layoutX="15.0" layoutY="115.0" prefHeight="26.0" prefWidth="135.0" />
             <Label layoutX="5.0" layoutY="150.0" text="Shapes" />
              <ChoiceBox fx:id="shapesView" layoutX="15.0" layoutY="165.0" prefHeight="26.0" prefWidth="128.0" />
-            <Button fx:id="remove" onMouseClicked="#removeShapeHandler" mnemonicParsing="false" text="Remove" layoutX="9.0" layoutY="250.0" />
+             <Button fx:id="plugin" onMouseClicked="#addPluginHandler" mnemonicParsing="false" text="Plugin" layoutX="50.0" layoutY="210.0" />
+             <Button fx:id="remove" onMouseClicked="#removeShapeHandler" mnemonicParsing="false" text="Remove" layoutX="9.0" layoutY="250.0" />
              <Button fx:id="update" onMouseClicked="#updateShapeHandler" mnemonicParsing="false" text="Update" layoutX="90.0" layoutY="250.0" />
              <Button fx:id="undo" onMouseClicked="#undoHandler" mnemonicParsing="false" text="Undo" layoutX="9.0" layoutY="285.0" />
              <Button fx:id="redo" onMouseClicked="#redoHandler" mnemonicParsing="false" text="Redo" layoutX="90.0" layoutY="285.0" />
