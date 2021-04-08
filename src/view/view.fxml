@@ -4,15 +4,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.25" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<SplitPane dividerPositions="0.25, 0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <ChoiceBox fx:id="shapesList" layoutX="9.0" layoutY="29.0" prefHeight="26.0" prefWidth="128.0" />
+            <ChoiceBox fx:id="shapesList" layoutX="9.0" layoutY="10.0" prefHeight="26.0" prefWidth="128.0" />
+            <Label layoutX="5.0" layoutY="50.0" text="Fill Color" />
+            <ColorPicker fx:id="fillPicker" layoutX="5.0" layoutY="65.0" prefHeight="26.0" prefWidth="135.0" />
+            <Label layoutX="5.0" layoutY="100.0" text="Stroke Color" />
+            <ColorPicker fx:id="strokePicker" layoutX="5.0" layoutY="115.0" prefHeight="26.0" prefWidth="135.0" />
+            <Label layoutX="5.0" layoutY="150.0" text="Shapes" />
+             <ChoiceBox fx:id="shapesView" layoutX="9.0" layoutY="165.0" prefHeight="26.0" prefWidth="128.0" />
+            <Button fx:id="Remove" onMouseClicked="#removeShapeHandler" mnemonicParsing="false" text="Remove" layoutX="9.0" layoutY="200.0" />
+             <Button fx:id="Update" onMouseClicked="#updateShapeHandler" mnemonicParsing="false" text="Update" layoutX="9.0" layoutY="225.0" />
+             <Button fx:id="Undo" onMouseClicked="#undoHandler" mnemonicParsing="false" text="Undo" layoutX="9.0" layoutY="250.0" />
+             <Button fx:id="Redo" onMouseClicked="#redoHandler" mnemonicParsing="false" text="Redo" layoutX="9.0" layoutY="275.0" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <Canvas fx:id="canvas" height="10000.0"  onMouseDragged="#handleDrag"  onMousePressed="#handleDragStart" onMouseReleased="#handleDragEnd" width="10000.0" />
+            <Canvas fx:id="canvas" height="10000.0" onMouseDragged="#handleDrag" onMousePressed="#handleDragStart" onMouseReleased="#handleDragEnd" width="10000.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>

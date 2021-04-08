@@ -14,7 +14,7 @@ public  abstract class Shape {
         private  Point2D endPosition;
         private Color fillColor;
         private Color strokeColor;
-        private HashMap <String,Double> properties = new HashMap<>();
+        private HashMap <String,String> properties = new HashMap<>();
         private  boolean finished = false;
 
         public Shape(Point2D startPosition, Point2D endPosition, Color fillColor, Color strokeColor ){
@@ -27,13 +27,14 @@ public  abstract class Shape {
         public void setFinished(){
                 finished = true;
         }
+        public boolean getFinished(){return finished;}
         public Point2D getStartPosition() {
                 return startPosition;
         }
 
         public void setStartPosition(Point2D startPosition) {
-                properties.put("startX",startPosition.getX());
-                properties.put("startY",startPosition.getY());
+                properties.put("startX", Double.toString(startPosition.getX()));
+                properties.put("startY",Double.toString(startPosition.getY()));
                 this.startPosition = startPosition;
         }
 
@@ -42,8 +43,8 @@ public  abstract class Shape {
         }
 
         public void setEndPosition(Point2D endPosition) {
-                properties.put("endX",endPosition.getX());
-                properties.put("endY",endPosition.getY());
+                properties.put("endX",Double.toString(endPosition.getX()));
+                properties.put("endY",Double.toString(endPosition.getY()));
                 this.endPosition = endPosition;
         }
 
@@ -52,7 +53,7 @@ public  abstract class Shape {
         }
 
         public void setFillColor(Color fillColor) {
-                properties.put("fill",JavafxUtils.ColorToDouble(fillColor));
+                properties.put("fill",Double.toString(JavafxUtils.ColorToDouble(fillColor)));
                 this.fillColor = fillColor;
         }
 
@@ -61,15 +62,15 @@ public  abstract class Shape {
         }
 
         public void setStrokeColor(Color strokeColor) {
-                properties.put("stroke",JavafxUtils.ColorToDouble(strokeColor));
+                properties.put("stroke",Double.toString(JavafxUtils.ColorToDouble(strokeColor)));
                 this.strokeColor = strokeColor;
         }
 
-        public HashMap<String, Double> getProperties() {
+        public HashMap<String, String> getProperties() {
                 return properties;
         }
 
-        public void setProperties(HashMap<String, Double> properties) {
+        public void setProperties(HashMap<String, String> properties) {
                 this.properties = properties;
         }
 
@@ -80,11 +81,11 @@ public  abstract class Shape {
                 else gc.setFill(JavafxUtils.decreaseOpacity(fillColor));
                 gc.setStroke(strokeColor);
                 gc.setLineWidth(2.0);
+                drawConcrete(canvas);
 
         }
+        public abstract void drawConcrete(Canvas canvas);
         /* create a deep clone of the shape */
-        public  Object clone() throws CloneNotSupportedException{
-               return null; // to be done
-        }
+        public abstract Shape clone() throws CloneNotSupportedException;
 
 }

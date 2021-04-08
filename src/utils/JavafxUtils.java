@@ -3,6 +3,9 @@ package utils;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JavafxUtils {
     public static double ColorToDouble(Color color){
         int r = (int)(color.getRed() * 255);
@@ -30,5 +33,14 @@ public class JavafxUtils {
         }else{
             return new Point2D(endPosition.getX(),startPosition.getY() + Math.abs(endPosition.getX() - startPosition.getX()));
         }
+    }
+
+    public static List<String> numberCollection(int x){
+        int i =0;
+        List <String> res = new ArrayList<>();
+        while (i++ != x){
+            res.add("Shape " +i);
+        }
+        return res;
     }
 }

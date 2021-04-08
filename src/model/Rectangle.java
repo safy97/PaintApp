@@ -4,21 +4,15 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-
-
-
-import java.util.Map;
 
 public class Rectangle extends Shape {
-    final double CODE = 0.0;
+    final String TYPE = "Rectangle";
     public Rectangle(Point2D startPosition, Point2D endPosition, Color fillColor, Color strokeColor ){
         super(startPosition,endPosition,fillColor,strokeColor);
-        getProperties().put("code",CODE);
+        getProperties().put("type",TYPE);
     }
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    public void drawConcrete(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         double topLeftX = Math.min(getStartPosition().getX(),getEndPosition().getX());
         double bottomRightX =   Math.max(getStartPosition().getX(),getEndPosition().getX());
@@ -26,6 +20,13 @@ public class Rectangle extends Shape {
         double bottomRightY = Math.max(getStartPosition().getY(),getEndPosition().getY());
         gc.fillRect(topLeftX,topLeftY,bottomRightX - topLeftX,bottomRightY-topLeftY);
         gc.strokeRect(topLeftX,topLeftY,bottomRightX - topLeftX,bottomRightY-topLeftY);
+    }
+
+    @Override
+    public Shape clone() throws CloneNotSupportedException {
+        Shape cloned =  new Rectangle(getStartPosition(),getEndPosition(),getFillColor(),getStrokeColor());
+        if(this.getFinished())cloned.setFinished();
+        return cloned;
     }
 
 }
