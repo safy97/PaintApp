@@ -9,7 +9,7 @@ public class Line extends Shape {
     final String TYPE = "Line";
     public Line(Point2D startPosition, Point2D endPosition, Color fillColor, Color strokeColor){
         super(startPosition,endPosition,fillColor,strokeColor);
-        getProperties().put("Type",TYPE);
+        getProperties().put("type",TYPE);
     }
 
     @Override

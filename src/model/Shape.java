@@ -4,9 +4,13 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import utils.JavafxUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public  abstract class Shape {
 
@@ -18,10 +22,10 @@ public  abstract class Shape {
         private  boolean finished = false;
 
         public Shape(Point2D startPosition, Point2D endPosition, Color fillColor, Color strokeColor ){
-                this.startPosition = startPosition;
-                this.endPosition = endPosition;
-                this.fillColor = fillColor;
-                this.strokeColor = strokeColor;
+                setStartPosition(startPosition);
+                setEndPosition(endPosition);
+                setFillColor(fillColor);
+                setStrokeColor(strokeColor);
         }
 
         public void setFinished(){
@@ -83,6 +87,15 @@ public  abstract class Shape {
                 gc.setLineWidth(2.0);
                 drawConcrete(canvas);
 
+        }
+        public Node getXMLNode(Document document,int id){
+                Element element = document.createElement("shape");
+                for(Map.Entry<String,String> entry: getProperties().entrySet()){
+                        Element innerNode = document.createElement(entry.getKey());
+                        innerNode.appendChild(document.createTextNode(entry.getValue()));
+                        element.appendChild(innerNode);
+                }
+                return element;
         }
         public abstract void drawConcrete(Canvas canvas);
         /* create a deep clone of the shape */

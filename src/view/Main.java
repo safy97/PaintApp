@@ -14,6 +14,7 @@ public class Main extends Application {
         stage.setTitle("Paint app");
 
         stage.setScene(new Scene(root));
+        stage.setResizable(false);
         stage.show();
     }
 

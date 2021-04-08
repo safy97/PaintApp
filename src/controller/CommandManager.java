@@ -13,6 +13,10 @@ public class CommandManager {
         if(commandManager == null) return new CommandManager();
         else return commandManager;
     }
+    public void clearCommands(){
+        commands.clear();
+        undoCommand.clear();
+    }
     public void addCommand(ICommand command){
         command.execute();
         commands.addLast(command);
